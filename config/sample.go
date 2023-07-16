@@ -9,6 +9,15 @@ handler:
     channel: ""
     # Title of the message.
     title: ""
+  slackwebhook:
+    # Slack channel.
+    channel: ""
+    # Slack Username.
+    username: ""
+    # Slack Emoji.
+    emoji: ""
+    # Slack Webhook Url.
+    slackwebhookurl: ""
   hipchat:
     # Hipchat token.
     token: ""
@@ -26,12 +35,9 @@ handler:
   webhook:
     # Webhook URL.
     url: ""
-    # Whether skip tls or not.
-    tlsskip: ""
-    # Path of webhook cert. Default value is false.
     cert: ""
+    tlsskip: false
   cloudevent:
-    # CloudEvent webhook URL.
     url: ""
   msteams:
     # MSTeams API Webhook URL.
@@ -61,12 +67,23 @@ handler:
     requireTLS: false
     # SMTP hello field (optional)
     hello: ""
+  lark:
+    # Webhook URL.
+    webhookurl: ""
+  eventbridge:
+    # EventBridge EndpointId (optional)
+    endpointId: ""
+    # EKS Cluster ARN. Used for EventBridge Event resource (optional)
+    clusterArn: ""
+    # EventBridge EventBusName (optional)
+    eventBusName: ""
 # Resources to watch.
 resource:
   deployment: false
   rc: false
   rs: false
   ds: false
+  statefulset: false
   svc: false
   po: false
   job: false
@@ -76,10 +93,12 @@ resource:
   sa: false
   pv: false
   ns: false
-  hpa: false
   secret: false
   configmap: false
   ing: false
+  hpa: false
+  event: false
+  coreevent: false
 # For watching specific namespace, leave it empty for watching all.
 # this config is ignored when watching namespaces
 namespace: ""

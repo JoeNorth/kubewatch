@@ -21,12 +21,13 @@ import (
 	"net/http"
 	"os"
 
+	_ "net/http/pprof"
+
 	"github.com/bitnami-labs/kubewatch/config"
 	c "github.com/bitnami-labs/kubewatch/pkg/client"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	_ "net/http/pprof"
 )
 
 var cfgFile string
@@ -49,6 +50,7 @@ supported webhooks:
  - flock
  - webhook
  - lark
+ - eventbridge
 `,
 
 	Run: func(cmd *cobra.Command, args []string) {

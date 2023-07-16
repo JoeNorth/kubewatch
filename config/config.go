@@ -47,6 +47,7 @@ type Handler struct {
 	MSTeams      MSTeams      `json:"msteams"`
 	SMTP         SMTP         `json:"smtp"`
 	Lark         Lark         `json:"lark"`
+	EventBridge  EventBridge  `json:"eventbridge"`
 }
 
 // Resource contains resource configuration
@@ -189,6 +190,15 @@ type SMTPAuth struct {
 	Secret string `json:"secret" yaml:"secret,omitempty"`
 }
 
+type EventBridge struct {
+	// EventBridge EndpointId (optional)
+	EndpointId string `json:"endpointId" yaml:"endpointId,omitempty"`
+	// EKS Cluster ARN. Used for EventBridge Event resource (optional)
+	ClusterArn string `json:"clusterArn" yaml:"clusterArn,omitempty"`
+	// EventBridge EventBusName (optional)
+	EventBusName string `json:"eventBusName" yaml:"eventBusName,omitempty"`
+}
+
 // New creates new config object
 func New() (*Config, error) {
 	c := &Config{}
@@ -299,6 +309,15 @@ func (c *Config) CheckMissingResourceEnvvars() {
 	}
 	if (c.Handler.SlackWebhook.Slackwebhookurl == "") && (os.Getenv("KW_SLACK_WEBHOOK_URL") != "") {
 		c.Handler.SlackWebhook.Slackwebhookurl = os.Getenv("KW_SLACK_WEBHOOK_URL")
+	}
+	if (c.Handler.EventBridge.EndpointId == "") && (os.Getenv("KW_EVENTBRIDGE_ENDPOINT_ID") != "") {
+		c.Handler.EventBridge.EndpointId = os.Getenv("KW_EVENTBRIDGE_ENDPOINT_ID")
+	}
+	if (c.Handler.EventBridge.ClusterArn == "") && (os.Getenv("KW_EVENTBRIDGE_CLUSTER_ARN") != "") {
+		c.Handler.EventBridge.ClusterArn = os.Getenv("KW_EVENTBRIDGE_CLUSTER_ARN")
+	}
+	if (c.Handler.EventBridge.EventBusName == "") && (os.Getenv("KW_EVENTBRIDGE_EVENT_BUS_NAME") != "") {
+		c.Handler.EventBridge.EventBusName = os.Getenv("KW_EVENTBRIDGE_EVENT_BUS_NAME")
 	}
 }
 
