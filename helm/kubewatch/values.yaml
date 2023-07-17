@@ -80,6 +80,16 @@ image:
 ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
 ##
 hostAliases: []
+## @param eventbridge.enalbed Enable EventBridge notifications
+## @param eventbridge.endpointid EventBridge endpoint to use
+## @param eventbridge.eventbusname EventBridge event bus to use
+## @param eventbridge.clusterarn EKS Cluster ARN where kubewatch is deployed
+##
+eventbridge:
+  enabled: false
+  endpointid: ""
+  eventbusname: ""
+  clusterarn: ""
 ## @param slack.enabled Enable Slack notifications
 ## @param slack.channel Slack channel to notify
 ## @param slack.token Slack API token
