@@ -174,15 +174,15 @@ func createEventEntry(e event.Event, m *EventBridge, d EventBridgeEntryDetail) (
 	}
 
 	// Convert EventBridgeEntryDetail to JSON
-	jsonDetails, err := json.Marshal(d)
+	b, err := json.Marshal(d)
 	if err != nil {
 		return &eb_types.PutEventsRequestEntry{}, err
 	}
 
-	jsonDetailsStr := string(jsonDetails)
+	detail := string(b)
 
 	eventEntry := eb_types.PutEventsRequestEntry{
-		Detail:     &jsonDetailsStr,
+		Detail:     &detail,
 		DetailType: &detailType,
 		Resources: []string{
 			m.ClusterArn,
