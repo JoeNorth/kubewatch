@@ -13,6 +13,9 @@ metadata:
 data:
   .kubewatch.yaml: |
     handler:
+      {{- if .Values.eventbridge.enabled }}
+      eventbridge: {{- toYaml .Values.eventbridge | nindent 8 }}
+      {{- end }}
       {{- if .Values.slack.enabled }}
       slack: {{- toYaml .Values.slack | nindent 8 }}
       {{- end }}
