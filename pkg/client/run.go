@@ -21,6 +21,7 @@ import (
 	"github.com/bitnami-labs/kubewatch/pkg/controller"
 	"github.com/bitnami-labs/kubewatch/pkg/handlers"
 	"github.com/bitnami-labs/kubewatch/pkg/handlers/cloudevent"
+	"github.com/bitnami-labs/kubewatch/pkg/handlers/eventbridge"
 	"github.com/bitnami-labs/kubewatch/pkg/handlers/flock"
 	"github.com/bitnami-labs/kubewatch/pkg/handlers/hipchat"
 	"github.com/bitnami-labs/kubewatch/pkg/handlers/lark"
@@ -65,6 +66,8 @@ func ParseEventHandler(conf *config.Config) handlers.Handler {
 		eventHandler = new(smtp.SMTP)
 	case len(conf.Handler.Lark.WebhookURL) > 0:
 		eventHandler = new(lark.Webhook)
+	case conf.Handler.EventBridge.Enabled:
+		eventHandler = new(eventbridge.EventBridge)
 	default:
 		eventHandler = new(handlers.Default)
 	}

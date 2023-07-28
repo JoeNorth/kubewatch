@@ -197,6 +197,8 @@ type EventBridge struct {
 	ClusterArn string `json:"clusterArn" yaml:"clusterArn,omitempty"`
 	// EventBridge EventBusName (optional)
 	EventBusName string `json:"eventBusName" yaml:"eventBusName,omitempty"`
+	// EventBridge enabled
+	Enabled bool `json:"enabled" yaml:"enabled"`
 }
 
 // New creates new config object

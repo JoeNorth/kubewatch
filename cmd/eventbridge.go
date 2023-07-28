@@ -59,6 +59,17 @@ var eventbridgeConfigCmd = &cobra.Command{
 		} else {
 			logrus.Fatal(err)
 		}
+		// This value generally isn't needed for other handlers however
+		// since there is no other non-optional value for its configuration
+		// it's required so that the handler is loaded by the client
+		enabled, err := cmd.Flags().GetBool("enabled")
+		if err == nil {
+			if enabled {
+				conf.Handler.EventBridge.Enabled = enabled
+			}
+		} else {
+			logrus.Fatal(err)
+		}
 
 		if err = conf.Write(); err != nil {
 			logrus.Fatal(err)

@@ -99,6 +99,7 @@ func (m *EventBridge) Handle(e event.Event) {
 
 	ctx := context.TODO()
 
+	logrus.Info("Loading AWS config")
 	cfg, err := awsconfig.LoadDefaultConfig(ctx)
 	if err != nil {
 		logrus.Fatalf("Failed to load AWS config: %v", err)
@@ -110,10 +111,15 @@ func (m *EventBridge) Handle(e event.Event) {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
-	_, err = eb_client.PutEvents(ctx, &eb.PutEventsInput{
-		Entries:    []eb_types.PutEventsRequestEntry{*eventEntry},
-		EndpointId: &m.EndpointId,
-	})
+	entryInput := eb.PutEventsInput{
+		Entries: []eb_types.PutEventsRequestEntry{*eventEntry},
+	}
+
+	if m.EndpointId != "" {
+		entryInput.EndpointId = &m.EndpointId
+	}
+
+	_, err = eb_client.PutEvents(ctx, &entryInput)
 
 	if err != nil {
 		logrus.Errorf("Failed to send event to EventBridge: %v", err)
@@ -190,7 +196,7 @@ func createEventEntry(e event.Event, m *EventBridge, d EventBridgeEntryDetail) (
 		Source: &source,
 	}
 
-	if m.EndpointId != "" {
+	if m.EventBusName != "" {
 		eventEntry.EventBusName = &m.EventBusName
 	}
 
